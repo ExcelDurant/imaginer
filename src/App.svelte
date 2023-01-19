@@ -11,7 +11,7 @@
   onMount(async () => {
     userId = guestService.identifyGuest();
     prompts = await getPrompts();
-    prompts = prompts.filter(async prom => await imageExists(prom.images[0]));
+    prompts = prompts.filter(async (prom) => await imageExists(prom.images[0]));
   });
 
   let promptText;
@@ -64,7 +64,8 @@
   </p>
   <div class="form-container">
     <p class="nb">
-      <span class="red">NB:</span> Votre requete doit être saisie en anglais, Rafraîchir la page en cas de problème, (100 frs/image)
+      <span class="red">NB:</span> Votre requete doit être saisie en anglais, Rafraîchir
+      la page en cas de problème, (100 frs/image)
     </p>
     <form
       class="prompt-form flex-justify-center"
@@ -88,19 +89,18 @@
   <div class="imgs-container">
     {#each prompts as prompt, i}
       {#if i == 0}
-      <div class="img-container">
-        <h2 class="prompt-txt">{prompt.text}</h2>
-        {#if prompt.failure_reason}
-        <h5 class="error">{prompt.failure_reason}</h5>
-        {/if}
-        {#if prompt.images.length > 0}
-        <img
-        src={prompt.images[0]}
-        alt={prompt.text}
-      />
-        {/if}
-        <h6 class="date">{getReadableDate(prompt.createdAt)}</h6>
-      </div>
+        <div class="img-container">
+          <h2 class="prompt-txt">{prompt.text}</h2>
+          {#if prompt.failure_reason}
+            <h5 class="error">{prompt.failure_reason}</h5>
+          {/if}
+          {#if prompt.isCompleted}
+            {#each prompt.images as img}
+              <img src={img} alt={prompt.text} />
+            {/each}
+          {/if}
+          <h6 class="date">{getReadableDate(prompt.createdAt)}</h6>
+        </div>
       {/if}
     {/each}
   </div>
@@ -199,37 +199,36 @@
       }
     }
     .lds-hourglass {
-  display: inline-block;
-  position: relative;
-  width: 80px;
-  height: 80px;
-}
-.lds-hourglass:after {
-  content: " ";
-  display: block;
-  border-radius: 50%;
-  width: 0;
-  height: 0;
-  margin: 8px;
-  box-sizing: border-box;
-  border: 32px solid #fff;
-  border-color: #ff3e00 transparent #ff3e00 transparent;
-  animation: lds-hourglass 1.2s infinite;
-}
-@keyframes lds-hourglass {
-  0% {
-    transform: rotate(0);
-    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
-  }
-  50% {
-    transform: rotate(900deg);
-    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
-  }
-  100% {
-    transform: rotate(1800deg);
-  }
-}
-
+      display: inline-block;
+      position: relative;
+      width: 80px;
+      height: 80px;
+    }
+    .lds-hourglass:after {
+      content: " ";
+      display: block;
+      border-radius: 50%;
+      width: 0;
+      height: 0;
+      margin: 8px;
+      box-sizing: border-box;
+      border: 32px solid #fff;
+      border-color: #ff3e00 transparent #ff3e00 transparent;
+      animation: lds-hourglass 1.2s infinite;
+    }
+    @keyframes lds-hourglass {
+      0% {
+        transform: rotate(0);
+        animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+      }
+      50% {
+        transform: rotate(900deg);
+        animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+      }
+      100% {
+        transform: rotate(1800deg);
+      }
+    }
   }
 
   .imgs-container {
@@ -240,6 +239,9 @@
       border-radius: 15px;
       width: 100%;
       margin-bottom: 20px;
+      img {
+        margin-bottom: 5px;
+      }
       .prompt-txt {
         font-size: 1.2rem;
         text-align: left;
@@ -263,7 +265,7 @@
       align-items: center;
       justify-content: center;
       .img-container {
-        width: 30%;
+        width: 60%;
         margin-right: 5px;
       }
     }
