@@ -1,15 +1,17 @@
 <script lang="ts">
   import { GuestService } from "./GuestService";
   import { onMount } from "svelte";
-  import { apiUrl, axiosPost, getReadableDate } from "./utils";
+  import { apiUrl, axiosPost, getReadableDate, imageExists } from "./utils";
+  import type { Prompt } from "./prompt.interface";
   let guestService = new GuestService();
 
   export let name: string;
   let userId;
-  let prompts = [];
+  let prompts = [] as Prompt[];
   onMount(async () => {
     userId = guestService.identifyGuest();
     prompts = await getPrompts();
+    prompts = prompts.filter(async prom => await imageExists(prom.images[0]));
   });
 
   let promptText;
@@ -24,7 +26,6 @@
       };
       let results = await axiosPost(url, formData);
       promptsLoading = false;
-      console.log(results);
       return results;
     } catch (error) {
       promptsLoading = false;
@@ -85,7 +86,8 @@
     {/if}
   </div>
   <div class="imgs-container">
-    {#each prompts as prompt}
+    {#each prompts as prompt, i}
+      {#if i == 0}
       <div class="img-container">
         <h2 class="prompt-txt">{prompt.text}</h2>
         {#if prompt.failure_reason}
@@ -99,6 +101,7 @@
         {/if}
         <h6 class="date">{getReadableDate(prompt.createdAt)}</h6>
       </div>
+      {/if}
     {/each}
   </div>
   {#if promptsLoading}
@@ -257,6 +260,8 @@
     @media (min-width: 640px) {
       display: flex;
       flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
       .img-container {
         width: 30%;
         margin-right: 5px;

@@ -4,6 +4,7 @@ export interface Prompt {
     user:string;
     isPaid:boolean;
     status:string;
+    failure_reason?:string;
     images:string[];
     failed:boolean;
     isCompleted:boolean;

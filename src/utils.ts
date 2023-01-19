@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const apiUrl = 'https://yango.gnopaexcel.com/';
+export const apiUrl = 'https://imaginer.gnopaexcel.com/';
 // export const apiUrl = 'http://127.0.0.1:5000/';
 
 export async function axiosPost(url: string, body: any) {
@@ -27,4 +27,25 @@ export function getReadableDate(date: any) {
     let minutes = newDate.getMinutes();
     // minutes = (minutes > 9)?minutes:("0"+minutes);
     return newDate.toDateString() + " " + newDate.getHours() + ":" + minutes;
+}
+
+export async function imageExists(image_url){
+    // try {
+    //     const res = await fetch(image_url);
+    //     const buff = await res.blob();
+    
+    //  return buff.type.startsWith('image/')
+    // } catch (error) {
+    //     return false;
+    // }
+    var http = new XMLHttpRequest();
+
+    try {
+        http.open('HEAD', image_url, false);
+    http.send();
+
+    return http.status != 403;
+    } catch (error) {
+        return false;
+    }
 }
