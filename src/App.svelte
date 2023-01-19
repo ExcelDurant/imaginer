@@ -56,15 +56,15 @@
 <main>
   <h1 class="title">Welcome to imaginer</h1>
   <p class="intro-txt">
-    Let your imagination flow. Generate any image you want
+    Let your imagination flow. Generate any image you want, at a cost obviously
   </p>
   <p class="intro-txt">
     Laissez libre cours à votre imagination. Générez n'importe quelle image que
-    vous voulez
+    vous voulez, a un prix biensur
   </p>
   <div class="form-container">
     <p class="nb">
-      <span class="red">NB:</span> Votre requete doit être saisie en anglais, Rafraîchir la page en cas de problème
+      <span class="red">NB:</span> Votre requete doit être saisie en anglais, Rafraîchir la page en cas de problème, (100 frs/image)
     </p>
     <form
       class="prompt-form flex-justify-center"
