@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// export const apiUrl = 'https://francine.gnopaexcel.com/';
-export const apiUrl = 'http://127.0.0.1:5000/';
+export const apiUrl = 'https://yango.gnopaexcel.com/';
+// export const apiUrl = 'http://127.0.0.1:5000/';
 
 export async function axiosPost(url: string, body: any) {
     let config = {
@@ -19,4 +19,12 @@ export async function axiosPost(url: string, body: any) {
     // console.log(message);
     window.alert("an error occured")
     throw new Error(message);
+}
+
+export function getReadableDate(date: any) {
+    let newDate = new Date(date._seconds * 1000 + date._nanoseconds/1000000);
+    // return newDate;
+    let minutes = newDate.getMinutes();
+    // minutes = (minutes > 9)?minutes:("0"+minutes);
+    return newDate.toDateString() + " " + newDate.getHours() + ":" + minutes;
 }
