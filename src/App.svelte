@@ -44,7 +44,9 @@
       };
       let results = await axiosPost(url, formData);
       loading = false;
-      window.open(results.data.payment_url, "_self");
+      // window.open(results.data.payment_url, "_self");
+      prompts.unshift(results);
+      prompts = prompts;
     } catch (error) {
       loading = false;
       console.log(error);
@@ -65,7 +67,7 @@
   <div class="form-container">
     <p class="nb">
       <span class="red">NB:</span> Votre requete doit être saisie en anglais, Rafraîchir
-      la page en cas de problème, (100 frs/image)
+      la page en cas de problème
     </p>
     <form
       class="prompt-form flex-justify-center"
@@ -94,11 +96,9 @@
           {#if prompt.failure_reason}
             <h5 class="error">{prompt.failure_reason}</h5>
           {/if}
-          {#if prompt.isCompleted}
             {#each prompt.images as img}
               <img src={img} alt={prompt.text} />
             {/each}
-          {/if}
           <h6 class="date">{getReadableDate(prompt.createdAt)}</h6>
         </div>
       {/if}
